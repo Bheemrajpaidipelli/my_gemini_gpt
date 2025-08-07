@@ -1,14 +1,17 @@
 import google.generativeai as genai
+from config import API_KEY
 
-class GeminiChat:
-    def __init__(self, api_key, model_name="models/gemini-2.5-pro"):
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel(model_name=model_name)
-        self.chat = self.model.start_chat(history=[])
+# Configure the Gemini API
+genai.configure(api_key=API_KEY)
 
-    def get_response(self, user_input):
-        try:
-            response = self.chat.send_message(user_input)
-            return response.text
-        except Exception as e:
-            return f"Error: {e}"
+# Initialize the model
+model = genai.GenerativeModel(model_name="models/gemini-2.5-pro")
+chat = model.start_chat(history=[])
+
+# Function to get response
+def get_gemini_response(user_input):
+    try:
+        response = chat.send_message(user_input)
+        return response.text
+    except Exception as e:
+        return f"Error: {str(e)}"

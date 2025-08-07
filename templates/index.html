@@ -1,27 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Bheemraj GPT Chatbot</title>
-    <style>
-        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
-        .chat-box { background: white; padding: 20px; border-radius: 10px; width: 60%; margin: auto; }
-        input[type=text] { width: 80%; padding: 10px; }
-        input[type=submit] { padding: 10px 20px; }
-        .response { margin-top: 20px; padding: 10px; background: #e8e8ff; border-radius: 8px; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ response.data.title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="chat-box">
-        <h2>Gemini GPT Chatbot</h2>
-        <form method="POST">
-            <input type="text" name="user_input" placeholder="Type your message..." required>
+
+    <div class="chat-container">
+        <h1>{{ response.data.title }}</h1>
+        <p>{{ response.data.summary }}</p>
+
+        <div class="response">
+            {% if user_input %}
+            <div class="message user">
+                <strong>You:</strong> {{ user_input }}
+            </div>
+            {% endif %}
+
+            {% if response.data %}
+            <div class="message bot">
+                <strong>{{ response.data.title }}</strong>
+                <p>{{ response.data.summary }}</p>
+
+                {% for detail in response.data.details %}
+                    <h4>{{ detail.section }}</h4>
+                    <p>{{ detail.description }}</p>
+                    {% if detail.code %}
+                        <pre>{{ detail.code }}</pre>
+                    {% endif %}
+                    {% if detail.bullets %}
+                        <ul>
+                            {% for bullet in detail.bullets %}
+                                <li>{{ bullet }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <form method="POST" action="/chat">
+            <input type="text" name="prompt" placeholder="Ask something..." required>
             <input type="submit" value="Send">
         </form>
-        {% if response %}
-            <div class="response">
-                <strong>Gemini GPT:</strong> {{ response }}
-            </div>
-        {% endif %}
     </div>
+
 </body>
 </html>
