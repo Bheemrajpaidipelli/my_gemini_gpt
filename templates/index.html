@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bheemraj GPT Chatbot</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .chat-box { background: white; padding: 20px; border-radius: 10px; width: 60%; margin: auto; }
+        input[type=text] { width: 80%; padding: 10px; }
+        input[type=submit] { padding: 10px 20px; }
+        .response { margin-top: 20px; padding: 10px; background: #e8e8ff; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="chat-box">
+        <h2>Gemini GPT Chatbot</h2>
+        <form method="POST">
+            <input type="text" name="user_input" placeholder="Type your message..." required>
+            <input type="submit" value="Send">
+        </form>
+        {% if response %}
+            <div class="response">
+                <strong>Gemini GPT:</strong> {{ response }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
